@@ -1,0 +1,20 @@
+---
+apiVersion: core.gardener.cloud/v1beta1
+kind: ControllerRegistration
+metadata:
+  name: provider-kubevirt
+spec:
+  resources:
+  - kind: ControlPlane
+    type: kubevirt
+  - kind: Infrastructure
+    type: kubevirt
+  - kind: Worker
+    type: kubevirt
+  deployment:
+    type: helm
+    providerConfig:
+      chart: H4sIAAAAAAAAA+1W32/aMBDuM3/FqU/bVBKgAzT2lDG2Ra1o1dBWezTJEawG27MdGP/9ziGltGvXapv205+QEjv23Xffnc/kTGcoUDfxs0VhuBRNpeWSZzR1VU5xybUN934MLUK/362ehLvP6r19+LLd6XZ6PTff7rcO+3vQ/UG/T0JpLNMAe1pK+611j33/S5E/Jf/DOdM2WLNF8V0+qvx3H85/p/vydv47rX6vtwetnxzrvfjP888Uv0Dt8j6AZbvBlLoZtoJ20GpmuGxkaFLNla3mI/iAxQJSVxQwkxrsHOF9XUdwREVzQUUDp3UZwbayGoItcABPKbnG8h4Wv1urfxFPOv+ZTINcfrePR85/p9Vr3z3/7cNDf/5/BcIXDXgBQ6nWmudzCyT9K0iiU0hGQEebiWrAZjNecGYRUrlQTKwDiIoCqi0GNBrUS8wCmMy5AVqKQM+Cp1RRmEEpXBtwXSJSLKVHImd2xTTC8WbJASwD6FCjSFFZYAaEtLRP0ha94oasiWr7cTwcjYmY80C0HfPjB51sbdcNDTpBC565Bfv1p/3nr52JtSxhwdbOKZTkzG6DqAmRdxc2CSBShBW38w2bjZXA2fhY25BTy2g5ow2KRrPdhcBsTXpurRqE4Wq1ClhFNpA6D2u9TFiH2STC9YZzUaBxQn8quaZgp2ugTk0b2JRoFmxV5SrXSN+sdIRXmlsu8gMwtdbOTMaN1Xxa2lt6XdOjqHcXkGKU/f0ogTjZhzdREicHzshlPPlwcj6By+jsLBpP4lECJ2cwPBm/jSfxyZhG7yAaf4SjePz2AJC7JJKSSrsIiCZ3SlKxOFsJ4i0K17eJUZjyGU8pNJGXLEfIJd0IgiIChXrBjcuoIYLZRqGw0QjDXA5y18tcnQZBSL8likzqMCcS5TSgJIbX/e7mZdv4TDhn6VV4baKZSmG1LArqhBpzpwxzF2Bg5vBVi4Sg9ngxOktIhXqEnxlFi+FDptxfKjp81cdTihUHW4OxmGlGC8vUlnpn/lLqK9TbsYsbTom3E2lzJaNwVWFgVw5TKiXr67qedFo6rVOpNaYWbjjCLY4NtWvdX8IeHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHn8uvgDoM8/7ACgAAA==
+      values:
+        image:
+          tag: v0.1.0-dev
