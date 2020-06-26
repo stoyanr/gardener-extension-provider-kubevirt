@@ -1,0 +1,16 @@
+---
+apiVersion: kubevirt.provider.extensions.config.gardener.cloud/v1alpha1
+kind: ControllerConfiguration
+clientConnection:
+  acceptContentTypes: application/json
+  contentType: application/json
+  qps: 100
+  burst: 130
+machineImages:
+  - name: ubuntu
+    version: "19.04"
+    imageID: ubuntu-19.04
+etcd:
+  storage:
+    className: gardener.cloud-fast
+    capacity: 25Gi
