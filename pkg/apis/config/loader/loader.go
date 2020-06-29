@@ -17,7 +17,7 @@ package loader
 import (
 	"io/ioutil"
 
-	config "github.com/gardener/gardener-extension-provider-kubevirt/pkg/apis/config/v1alpha1"
+	"github.com/gardener/gardener-extension-provider-kubevirt/pkg/apis/config"
 	"github.com/gardener/gardener-extension-provider-kubevirt/pkg/apis/config/install"
 
 	"k8s.io/apimachinery/pkg/runtime"
