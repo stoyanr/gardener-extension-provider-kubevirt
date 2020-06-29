@@ -17,6 +17,9 @@
 package infrastructure
 
 import (
+	"github.com/gardener/gardener-extension-provider-kubevirt/pkg/kubevirt"
+
+	"github.com/gardener/gardener/extensions/pkg/controller/infrastructure"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
@@ -39,8 +42,12 @@ type AddOptions struct {
 // AddToManagerWithOptions adds a controller with the given Options to the given manager.
 // The opts.Reconciler is being set with a newly instantiated actuator.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) error {
-	// TODO: implement
-	return nil
+	return infrastructure.Add(mgr, infrastructure.AddArgs{
+		Actuator:          NewActuator(opts.GardenId),
+		ControllerOptions: opts.Controller,
+		Predicates:        infrastructure.DefaultPredicates(opts.IgnoreOperationAnnotation),
+		Type:              kubevirt.Type,
+	})
 }
 
 // AddToManager adds a controller with the default Options.
