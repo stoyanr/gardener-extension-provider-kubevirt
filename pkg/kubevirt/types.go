@@ -16,6 +16,10 @@
 
 package kubevirt
 
+import (
+	"path/filepath"
+)
+
 const (
 	// Name is the name of the KubeVirt provider controller.
 	Name = "provider-kubevirt"
@@ -23,4 +27,11 @@ const (
 	MachineControllerManagerName = "machine-controller-manager"
 	// CloudControllerManagerName is the constant for the name of the CloudController deployed by the control plane controller.
 	CloudControllerManagerName = "cloud-controller-manager"
+)
+
+var (
+	// ChartsPath is the path to the charts
+	ChartsPath = filepath.Join("charts")
+	// InternalChartsPath is the path to the internal charts
+	InternalChartsPath = filepath.Join(ChartsPath, "internal")
 )
