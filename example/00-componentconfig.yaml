@@ -12,5 +12,5 @@ machineImages:
     imageID: ubuntu-19.04
 etcd:
   storage:
-    className: gardener.cloud-fast
-    capacity: 25Gi
+    className: standard
+    capacity: 5Gi

@@ -51,16 +51,16 @@ start:
 		--webhook-config-mode=$(WEBHOOK_CONFIG_MODE) \
 		$(WEBHOOK_PARAM)
 
-.PHONY: start-validator
-start-validator:
-	@LEADER_ELECTION_NAMESPACE=garden GO111MODULE=on go run \
-		-mod=vendor \
-		-ldflags $(LD_FLAGS) \
-		./cmd/$(EXTENSION_PREFIX)-$(VALIDATOR_NAME) \
-		--leader-election=$(LEADER_ELECTION) \
-		--webhook-config-server-host=0.0.0.0 \
-		--webhook-config-server-port=9443 \
-		--webhook-config-cert-dir=./example/validator-kubevirt-certs
+#.PHONY: start-validator
+#start-validator:
+#	@LEADER_ELECTION_NAMESPACE=garden GO111MODULE=on go run \
+#		-mod=vendor \
+#		-ldflags $(LD_FLAGS) \
+#		./cmd/$(EXTENSION_PREFIX)-$(VALIDATOR_NAME) \
+#		--leader-election=$(LEADER_ELECTION) \
+#		--webhook-config-server-host=0.0.0.0 \
+#		--webhook-config-server-port=9443 \
+#		--webhook-config-cert-dir=./example/validator-kubevirt-certs
 
 #################################################################
 # Rules related to binary build, Docker image build and release #
@@ -78,7 +78,7 @@ docker-login:
 .PHONY: docker-images
 docker-images:
 	@docker build -t $(IMAGE_PREFIX)/$(NAME):$(VERSION)           -t $(IMAGE_PREFIX)/$(NAME):latest           -f Dockerfile -m 6g --target $(EXTENSION_PREFIX)-$(NAME)           .
-	@docker build -t $(IMAGE_PREFIX)/$(VALIDATOR_NAME):$(VERSION) -t $(IMAGE_PREFIX)/$(VALIDATOR_NAME):latest -f Dockerfile -m 6g --target $(EXTENSION_PREFIX)-$(VALIDATOR_NAME) .
+#	@docker build -t $(IMAGE_PREFIX)/$(VALIDATOR_NAME):$(VERSION) -t $(IMAGE_PREFIX)/$(VALIDATOR_NAME):latest -f Dockerfile -m 6g --target $(EXTENSION_PREFIX)-$(VALIDATOR_NAME) .
 
 #####################################################################
 # Rules for verification, formatting, linting, testing and cleaning #
@@ -121,22 +121,22 @@ generate:
 
 .PHONY: format
 format:
-	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/format.sh ./cmd ./pkg ./test
+	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/format.sh ./cmd ./pkg
 
-.PHONY: test
-test:
-	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/test.sh --skipPackage test/e2e/networkpolicies,test/integration -r ./cmd/... ./pkg/... ./test/...
-
-.PHONY: test-cov
-test-cov:
-	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/test-cover.sh -r ./cmd/... ./pkg/...
-
-.PHONY: test-clean
-test-clean:
-	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/test-cover-clean.sh
+#.PHONY: test
+#test:
+#	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/test.sh --skipPackage test/e2e/networkpolicies,test/integration -r ./cmd/... ./pkg/... ./test/...
+#
+#.PHONY: test-cov
+#test-cov:
+#	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/test-cover.sh -r ./cmd/... ./pkg/...
+#
+#.PHONY: test-clean
+#test-clean:
+#	@$(REPO_ROOT)/vendor/github.com/gardener/gardener/hack/test-cover-clean.sh
 
 .PHONY: verify
-verify: check format test
+verify: check format #test
 
 .PHONY: verify-extended
-verify-extended: install-requirements check-generate check format test-cov test-clean
+verify-extended: install-requirements check-generate check format #test-cov test-clean

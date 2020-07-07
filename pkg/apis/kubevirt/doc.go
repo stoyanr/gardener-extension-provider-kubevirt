@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // +k8s:deepcopy-gen=package
-// +groupName="vsphere.provider.extensions.gardener.cloud"
+// +groupName="kubevirt.provider.extensions.gardener.cloud"
 
 //go:generate ../../../hack/update-codegen.sh
 

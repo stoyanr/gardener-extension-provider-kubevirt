@@ -34,7 +34,7 @@ var (
 	logger = log.Log.WithName("kubevirt-controlplane-webhook")
 )
 
-// AddOptions are options to apply when adding the vSphere controlplane controller to the manager.
+// AddOptions are options to apply when adding the KubeVirt controlplane controller to the manager.
 type AddOptions struct {
 	// Controller are the controller.Options.
 	Controller controller.Options

@@ -19,6 +19,7 @@ package app
 import (
 	"context"
 	"fmt"
+	webhookcmd "github.com/gardener/gardener/extensions/pkg/webhook/cmd"
 	"os"
 
 	kubevirtinstall "github.com/gardener/gardener-extension-provider-kubevirt/pkg/apis/kubevirt/install"
@@ -35,7 +36,6 @@ import (
 	controllercmd "github.com/gardener/gardener/extensions/pkg/controller/cmd"
 	"github.com/gardener/gardener/extensions/pkg/controller/worker"
 	"github.com/gardener/gardener/extensions/pkg/util"
-	webhookcmd "github.com/gardener/gardener/extensions/pkg/webhook/cmd"
 	machinev1alpha1 "github.com/gardener/machine-controller-manager/pkg/apis/machine/v1alpha1"
 	"github.com/spf13/cobra"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

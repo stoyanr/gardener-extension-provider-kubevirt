@@ -21,7 +21,6 @@ import (
 	workercontroller "github.com/gardener/gardener-extension-provider-kubevirt/pkg/controller/worker"
 	controlplanewebhook "github.com/gardener/gardener-extension-provider-kubevirt/pkg/webhook/controlplane"
 	controlplaneexposurewebhook "github.com/gardener/gardener-extension-provider-kubevirt/pkg/webhook/controlplaneexposure"
-
 	controllercmd "github.com/gardener/gardener/extensions/pkg/controller/cmd"
 	extensionscontrolplanecontroller "github.com/gardener/gardener/extensions/pkg/controller/controlplane"
 	extensionshealthcheckcontroller "github.com/gardener/gardener/extensions/pkg/controller/healthcheck"
