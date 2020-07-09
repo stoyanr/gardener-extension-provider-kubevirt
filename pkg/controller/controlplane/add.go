@@ -17,6 +17,17 @@
 package controlplane
 
 import (
+	"context"
+
+	"github.com/gardener/gardener-extension-provider-kubevirt/pkg/kubevirt"
+	extensionscontroller "github.com/gardener/gardener/extensions/pkg/controller"
+	"github.com/gardener/gardener/extensions/pkg/controller/common"
+	extensionsv1alpha1 "github.com/gardener/gardener/pkg/apis/extensions/v1alpha1"
+
+	"github.com/go-logr/logr"
+
+	"github.com/gardener/gardener/extensions/pkg/controller/controlplane"
+
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -42,11 +53,51 @@ type AddOptions struct {
 // AddToManagerWithOptions adds a controller with the given Options to the given manager.
 // The opts.Reconciler is being set with a newly instantiated actuator.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) error {
-	// TODO: implement
-	return nil
+	return controlplane.Add(mgr, controlplane.AddArgs{
+		Actuator:          NewActuator(opts.GardenId),
+		ControllerOptions: opts.Controller,
+		Predicates:        controlplane.DefaultPredicates(opts.IgnoreOperationAnnotation),
+		Type:              kubevirt.Type,
+	})
 }
 
 // AddToManager adds a controller with the default Options.
 func AddToManager(mgr manager.Manager) error {
 	return AddToManagerWithOptions(mgr, DefaultAddOptions)
+}
+
+// NewActuator creates a new Actuator that updates the status of the handled Infrastructure resources.
+func NewActuator(gardenID string) controlplane.Actuator {
+	return &actuator{
+		logger:   log.Log.WithName("infrastructure-actuator"),
+		gardenID: gardenID,
+	}
+}
+
+type actuator struct {
+	common.ChartRendererContext
+
+	logger   logr.Logger
+	gardenID string
+}
+
+func (a *actuator) Reconcile(context.Context, *extensionsv1alpha1.ControlPlane, *extensionscontroller.Cluster) (bool, error) {
+	a.logger.Info("control-plane reconciled")
+	// TODO: install kubevirt-cloud-controller-manager here and related components, the genericActuator might be used here
+	return false, nil
+}
+
+// Delete deletes the ControlPlane.
+func (a *actuator) Delete(context.Context, *extensionsv1alpha1.ControlPlane, *extensionscontroller.Cluster) error {
+	return nil
+}
+
+// Restore restores the ControlPlane.
+func (a *actuator) Restore(context.Context, *extensionsv1alpha1.ControlPlane, *extensionscontroller.Cluster) (bool, error) {
+	return false, nil
+}
+
+// Migrate migrates the ControlPlane.
+func (a *actuator) Migrate(context.Context, *extensionsv1alpha1.ControlPlane, *extensionscontroller.Cluster) error {
+	return nil
 }

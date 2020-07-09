@@ -1,0 +1,5 @@
+images:
+- name: kubevirt-cloud-controller-manager
+  sourceRepository: github.com/kubevirt/cloud-provider-kubevirt
+  repository: docker.io/mfranczy/kubevirt-cloud-controller-manager
+  tag: latest

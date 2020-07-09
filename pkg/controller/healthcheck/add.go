@@ -55,16 +55,8 @@ func RegisterHealthChecks(mgr manager.Manager, opts healthcheck.DefaultAddArgs) 
 		[]predicate.Predicate{extensionspredicate.HasPurpose(extensionsv1alpha1.Normal)},
 		[]healthcheck.ConditionTypeToHealthCheck{
 			{
-				ConditionType: string(gardencorev1beta1.ShootControlPlaneHealthy),
-				HealthCheck:   general.NewSeedDeploymentHealthChecker(kubevirt.CloudControllerManagerName),
-			},
-			{
 				ConditionType: string(gardencorev1beta1.ShootSystemComponentsHealthy),
 				HealthCheck:   general.CheckManagedResource(genericcontrolplaneactuator.ControlPlaneShootChartResourceName),
-			},
-			{
-				ConditionType: string(gardencorev1beta1.ShootSystemComponentsHealthy),
-				HealthCheck:   general.CheckManagedResource(genericcontrolplaneactuator.StorageClassesChartResourceName),
 			},
 		}); err != nil {
 		return err

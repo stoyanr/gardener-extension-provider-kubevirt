@@ -17,8 +17,8 @@ package controlplane
 import (
 	"github.com/gardener/gardener/extensions/pkg/webhook/controlplane/genericmutator"
 
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"github.com/go-logr/logr"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // NewEnsurer creates a new controlplane ensurer.
@@ -34,4 +34,10 @@ type ensurer struct {
 	logger logr.Logger
 }
 
-// TODO: implement
+// InjectClient injects the given client into the ensurer.
+func (e *ensurer) InjectClient(client client.Client) error {
+	e.client = client
+	return nil
+}
+
+// TODO: modify control-plane arguments here, like api-server args etc.

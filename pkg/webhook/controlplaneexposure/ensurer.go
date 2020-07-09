@@ -37,4 +37,10 @@ type ensurer struct {
 	logger      logr.Logger
 }
 
-// TODO: implement
+// InjectClient injects the given client into the ensurer.
+func (e *ensurer) InjectClient(client client.Client) error {
+	e.client = client
+	return nil
+}
+
+// TODO: ensure that apiserver service is exposed, implement ensure methods

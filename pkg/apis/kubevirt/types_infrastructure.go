@@ -24,6 +24,8 @@ import (
 // InfrastructureConfig infrastructure configuration resource
 type InfrastructureConfig struct {
 	metav1.TypeMeta `json:",inline"`
+
+	// TODO: add network specific fields
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -32,5 +34,5 @@ type InfrastructureConfig struct {
 type InfrastructureStatus struct {
 	metav1.TypeMeta `json:",inline"`
 
-	CreationStarted *bool           `json:"creationStarted,omitempty"`
+	CreationStarted *bool `json:"creationStarted,omitempty"`
 }
