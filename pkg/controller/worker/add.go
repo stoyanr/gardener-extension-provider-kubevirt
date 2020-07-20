@@ -17,8 +17,13 @@
 package worker
 
 import (
+	"github.com/gardener/gardener/extensions/pkg/controller/worker"
+	machinescheme "github.com/gardener/machine-controller-manager/pkg/client/clientset/versioned/scheme"
+	apiextensionsscheme "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+
+	"github.com/gardener/gardener-extension-provider-kubevirt/pkg/kubevirt"
 )
 
 var (
@@ -37,8 +42,20 @@ type AddOptions struct {
 // AddToManagerWithOptions adds a controller with the given Options to the given manager.
 // The opts.Reconciler is being set with a newly instantiated actuator.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) error {
-	// TODO: implement
-	return nil
+	scheme := mgr.GetScheme()
+	if err := apiextensionsscheme.AddToScheme(scheme); err != nil {
+		return err
+	}
+	if err := machinescheme.AddToScheme(scheme); err != nil {
+		return err
+	}
+
+	return worker.Add(mgr, worker.AddArgs{
+		Actuator:          NewActuator(),
+		ControllerOptions: opts.Controller,
+		Predicates:        worker.DefaultPredicates(opts.IgnoreOperationAnnotation),
+		Type:              kubevirt.Type,
+	})
 }
 
 // AddToManager adds a controller with the default Options.

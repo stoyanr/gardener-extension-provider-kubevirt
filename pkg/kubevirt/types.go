@@ -27,6 +27,14 @@ const (
 	CloudControllerImageName = "kubevirt-cloud-controller-manager"
 	// MachineControllerManagerName is a constant for the name of the machine-controller-manager.
 	MachineControllerManagerName = "machine-controller-manager"
+	// MachineControllerManagerImageName is the name of the MachineControllerManager image.
+	MachineControllerManagerImageName = "machine-controller-manager"
+	// MCMProviderKubeVirtImageName is the name of the KubeVirt provider plugin image.
+	MCMProviderKubeVirtImageName = "machine-controller-manager-provider-kubevirt"
+	// MachineControllerManagerMonitoringConfigName is the name of the ConfigMap containing monitoring stack configurations for machine-controller-manager.
+	MachineControllerManagerMonitoringConfigName = "machine-controller-manager-monitoring-config"
+	// MachineControllerManagerVpaName is the name of the VerticalPodAutoscaler of the machine-controller-manager deployment.
+	MachineControllerManagerVpaName = "machine-controller-manager-vpa"
 	// CloudControllerManagerName is the constant for the name of the CloudController deployed by the control plane controller.
 	CloudControllerManagerName = "cloud-controller-manager"
 	// CloudControllerManagerServerName is the constant for the name of the CloudController deployed by the control plane controller.
