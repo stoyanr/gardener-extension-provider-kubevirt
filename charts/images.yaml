@@ -3,3 +3,11 @@ images:
   sourceRepository: github.com/kubevirt/cloud-provider-kubevirt
   repository: docker.io/mfranczy/kubevirt-cloud-controller-manager
   tag: latest
+- name: machine-controller-manager
+  sourceRepository: github.com/gardener/machine-controller-manager
+  repository: eu.gcr.io/gardener-project/gardener/machine-controller-manager
+  tag: "v0.33.0"
+- name: machine-controller-manager-provider-kubevirt
+  sourceRepository: github.com/gardener/machine-controller-manager-provider-kubevirt
+  repository: docker.io/mfranczy/machine-controller-manager-provider-kubevirt
+  tag: latest
