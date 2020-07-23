@@ -18,37 +18,30 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // CloudProfileConfig contains provider-specific configuration that is embedded into Gardener's `CloudProfile`
 // resource.
 type CloudProfileConfig struct {
-	metav1.TypeMeta
+	metav1.TypeMeta `json:",inline"`
 	// MachineImages is the list of machine images that are understood by the controller. It maps
 	// logical names and versions to provider-specific identifiers.
-	MachineImages []MachineImages
-	// Constraints is an object containing constraints for certain values in the control plane config.
-	Constraints Constraints
-}
-
-// Constraints is an object containing constraints for the shoots.
-type Constraints struct {
+	MachineImages []MachineImages `json:"machineImages"`
 }
 
 // MachineImages is a mapping from logical names and versions to provider-specific identifiers.
 type MachineImages struct {
 	// Name is the logical name of the machine image.
-	Name string
+	Name string `json:"name"`
 	// Versions contains versions and a provider-specific identifier.
-	Versions []MachineImageVersion
+	Versions []MachineImageVersion `json:"versions"`
 }
 
 // MachineImageVersion contains a version and a provider-specific identifier.
 type MachineImageVersion struct {
 	// Version is the version of the image.
-	Version string
-	// Path is the path of the VM template.
-	Path string
-	// GuestID is the optional guestId to overwrite the guestId of the VM template.
-	GuestID *string
+	Version string `json:"version"`
+	// SourceURL is the url of the image
+	SourceURL string `json:"sourceURL"`
 }

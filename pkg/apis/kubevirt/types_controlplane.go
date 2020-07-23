@@ -18,10 +18,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // ControlPlaneConfig contains configuration settings for the control plane.
 type ControlPlaneConfig struct {
-	metav1.TypeMeta `json:",inline"`
+	metav1.TypeMeta
 }

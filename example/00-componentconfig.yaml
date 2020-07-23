@@ -8,8 +8,8 @@ clientConnection:
   burst: 130
 machineImages:
   - name: ubuntu
-    version: "19.04"
-    imageID: ubuntu-19.04
+    version: "16.04"
+    sourceURL: "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
 etcd:
   storage:
     className: standard

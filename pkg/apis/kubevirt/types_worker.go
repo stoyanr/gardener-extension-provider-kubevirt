@@ -18,12 +18,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // WorkerStatus contains information about created worker resources.
 type WorkerStatus struct {
-	metav1.TypeMeta `json:",inline"`
+	metav1.TypeMeta
 
 	// MachineImages is a list of machine images that have been used in this worker. Usually, the extension controller
 	// gets the mapping from name/version to the provider-specific machine image data in its componentconfig. However, if
@@ -31,17 +30,15 @@ type WorkerStatus struct {
 	// resources that are still using this version. Hence, it stores the used versions in the provider status to ensure
 	// reconciliation is possible.
 	// +optional
-	MachineImages []MachineImage `json:"machineImages,omitempty"`
+	MachineImages []MachineImage
 }
 
 // MachineImage is a mapping from logical names and versions to provider-specific machine image data.
 type MachineImage struct {
 	// Name is the logical name of the machine image.
-	Name string `json:"name"`
+	Name string
 	// Version is the logical version of the machine image.
-	Version string `json:"version"`
-	// Path is the path of the VM template.
-	Path string `json:"path"`
-	// GuestID is the optional guestId to overwrite the guestId of the VM template.
-	GuestID string `json:"guestId,omitempty"`
+	Version string
+	// SourceURL is the url of the machine image
+	SourceURL string
 }

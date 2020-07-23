@@ -10,12 +10,61 @@
 </p>
 Resource Types:
 <ul><li>
+<a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.CloudProfileConfig">CloudProfileConfig</a>
+</li><li>
 <a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.ControlPlaneConfig">ControlPlaneConfig</a>
 </li><li>
 <a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.InfrastructureConfig">InfrastructureConfig</a>
 </li><li>
 <a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.WorkerStatus">WorkerStatus</a>
 </li></ul>
+<h3 id="kubevirt.provider.extensions.gardener.cloud/v1alpha1.CloudProfileConfig">CloudProfileConfig
+</h3>
+<p>
+<p>CloudProfileConfig contains provider-specific configuration that is embedded into Gardener&rsquo;s <code>CloudProfile</code>
+resource.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code></br>
+string</td>
+<td>
+<code>
+kubevirt.provider.extensions.gardener.cloud/v1alpha1
+</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>kind</code></br>
+string
+</td>
+<td><code>CloudProfileConfig</code></td>
+</tr>
+<tr>
+<td>
+<code>machineImages</code></br>
+<em>
+<a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.MachineImages">
+[]MachineImages
+</a>
+</em>
+</td>
+<td>
+<p>MachineImages is the list of machine images that are understood by the controller. It maps
+logical names and versions to provider-specific identifiers.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="kubevirt.provider.extensions.gardener.cloud/v1alpha1.ControlPlaneConfig">ControlPlaneConfig
 </h3>
 <p>
@@ -130,58 +179,6 @@ reconciliation is possible.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="kubevirt.provider.extensions.gardener.cloud/v1alpha1.CloudProfileConfig">CloudProfileConfig
-</h3>
-<p>
-<p>CloudProfileConfig contains provider-specific configuration that is embedded into Gardener&rsquo;s <code>CloudProfile</code>
-resource.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>MachineImages</code></br>
-<em>
-<a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.MachineImages">
-[]MachineImages
-</a>
-</em>
-</td>
-<td>
-<p>MachineImages is the list of machine images that are understood by the controller. It maps
-logical names and versions to provider-specific identifiers.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Constraints</code></br>
-<em>
-<a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.Constraints">
-Constraints
-</a>
-</em>
-</td>
-<td>
-<p>Constraints is an object containing constraints for certain values in the control plane config.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="kubevirt.provider.extensions.gardener.cloud/v1alpha1.Constraints">Constraints
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.CloudProfileConfig">CloudProfileConfig</a>)
-</p>
-<p>
-<p>Constraints is an object containing constraints for the shoots.</p>
-</p>
 <h3 id="kubevirt.provider.extensions.gardener.cloud/v1alpha1.InfrastructureStatus">InfrastructureStatus
 </h3>
 <p>
@@ -248,24 +245,13 @@ string
 </tr>
 <tr>
 <td>
-<code>path</code></br>
+<code>sourceUrl</code></br>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Path is the path of the VM template.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>guestId</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<p>GuestID is the optional guestId to overwrite the guestId of the VM template.</p>
+<p>SourceURL is the url of the machine image</p>
 </td>
 </tr>
 </tbody>
@@ -289,7 +275,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>Version</code></br>
+<code>version</code></br>
 <em>
 string
 </em>
@@ -300,24 +286,13 @@ string
 </tr>
 <tr>
 <td>
-<code>Path</code></br>
+<code>sourceURL</code></br>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Path is the path of the VM template.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>GuestID</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<p>GuestID is the optional guestId to overwrite the guestId of the VM template.</p>
+<p>SourceURL is the url of the image</p>
 </td>
 </tr>
 </tbody>
@@ -341,7 +316,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>Name</code></br>
+<code>name</code></br>
 <em>
 string
 </em>
@@ -352,7 +327,7 @@ string
 </tr>
 <tr>
 <td>
-<code>Versions</code></br>
+<code>versions</code></br>
 <em>
 <a href="#kubevirt.provider.extensions.gardener.cloud/v1alpha1.MachineImageVersion">
 []MachineImageVersion

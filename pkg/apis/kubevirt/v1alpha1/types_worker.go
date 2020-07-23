@@ -40,8 +40,6 @@ type MachineImage struct {
 	Name string `json:"name"`
 	// Version is the logical version of the machine image.
 	Version string `json:"version"`
-	// Path is the path of the VM template.
-	Path string `json:"path"`
-	// GuestID is the optional guestId to overwrite the guestId of the VM template.
-	GuestID string `json:"guestId,omitempty"`
+	// SourceURL is the url of the machine image
+	SourceURL string `json:"sourceUrl"`
 }

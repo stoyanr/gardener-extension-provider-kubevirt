@@ -2,6 +2,7 @@ package worker
 
 import (
 	"context"
+	"fmt"
 	"path/filepath"
 
 	extensionscontroller "github.com/gardener/gardener/extensions/pkg/controller"
@@ -48,14 +49,24 @@ func (w *workerDelegate) GenerateMachineDeployments(ctx context.Context) (worker
 }
 
 func (w *workerDelegate) generateMachineClassSecretData(ctx context.Context) (map[string][]byte, error) {
-	//secret, err := extensionscontroller.GetSecretByReference(ctx, w.Client(), &w.worker.Spec.SecretRef)
-	_, err := extensionscontroller.GetSecretByReference(ctx, w.Client(), &w.worker.Spec.SecretRef)
+	const kubeconfigKey = "kubeconfig"
+
+	secret, err := extensionscontroller.GetSecretByReference(ctx, w.Client(), &w.worker.Spec.SecretRef)
 	if err != nil {
 		return nil, err
 	}
 
+	if secret.Data == nil {
+		return nil, fmt.Errorf("secret does not contain any data")
+	}
+
+	kubeconfig, ok := secret.Data[kubeconfigKey]
+	if !ok {
+		return nil, fmt.Errorf("missing %q field in secret", kubeconfigKey)
+	}
+
 	return map[string][]byte{
-		// TODO: pass kubeconfig here?
+		"kubeconfig": kubeconfig,
 	}, nil
 }
 
@@ -66,8 +77,66 @@ func (w *workerDelegate) generateMachineConfig(ctx context.Context) error {
 		machineImages      []apiskubevirt.MachineImage
 	)
 
-	// TODO: check zones
-	// TODO: create machine deployment and classes
+	secretData, err := w.generateMachineClassSecretData(ctx)
+	if err != nil {
+		return err
+	}
+
+	for _, pool := range w.worker.Spec.Pools {
+
+		// hardcoded for now as we don't support zones yet
+		zoneIdx := int32(0)
+		zoneLen := int32(1)
+
+		workerPoolHash, err := worker.WorkerPoolHash(pool, w.cluster)
+		if err != nil {
+			return err
+		}
+
+		imageSourceURL, err := w.findMachineImage(pool.MachineImage.Name, pool.MachineImage.Version)
+		if err != nil {
+			return err
+		}
+		machineImages = appendMachineImage(machineImages, apiskubevirt.MachineImage{
+			Name:    pool.MachineImage.Name,
+			Version: pool.MachineImage.Version,
+			SourceURL: imageSourceURL,
+		})
+
+		deploymentName := fmt.Sprintf("%s-%s-z", w.worker.Namespace, pool.Name)
+		className      := fmt.Sprintf("%s-%s", deploymentName, workerPoolHash)
+
+		machineClasses = append(machineClasses, map[string]interface{}{
+			"name": className,
+			"storageClassName": "standard",
+			"pvcSize": "10Gi",
+			"sourceURL": imageSourceURL,
+			"cpus": "100m",
+			"memory": "4096M",
+			"namespace": "default",
+			"tags": map[string]string{
+				"mcm.gardener.cloud/cluster": w.worker.Namespace,
+				"mcm.gardener.cloud/role": "node",
+			},
+			"secret": map[string]interface{}{
+				"cloudConfig": string(pool.UserData),
+				"kubeconfig": string(secretData["kubeconfig"]),
+			},
+		})
+
+		machineDeployments = append(machineDeployments, worker.MachineDeployment{
+			Name:           deploymentName,
+			ClassName:      className,
+			SecretName:     className,
+			Minimum:        worker.DistributeOverZones(zoneIdx, pool.Minimum, zoneLen),
+			Maximum:        worker.DistributeOverZones(zoneIdx, pool.Maximum, zoneLen),
+			MaxSurge:       worker.DistributePositiveIntOrPercent(zoneIdx, pool.MaxSurge, zoneLen, pool.Maximum),
+			MaxUnavailable: worker.DistributePositiveIntOrPercent(zoneIdx, pool.MaxUnavailable, zoneLen, pool.Minimum),
+			Labels:         pool.Labels,
+			Annotations:    pool.Annotations,
+			Taints:         pool.Taints,
+		})
+	}
 
 	w.machineDeployments = machineDeployments
 	w.machineClasses = machineClasses

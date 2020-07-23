@@ -30,6 +30,8 @@ type actuator struct {
 
 // NewActuator creates a new Actuator that updates the status of the handled Infrastructure resources.
 func NewActuator(gardenID string) infrastructure.Actuator {
+
+
 	return &actuator{
 		logger:   log.Log.WithName("infrastructure-actuator"),
 		gardenID: gardenID,

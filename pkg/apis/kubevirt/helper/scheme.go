@@ -2,7 +2,6 @@ package helper
 
 import (
 	"fmt"
-
 	"github.com/gardener/gardener/extensions/pkg/controller"
 	gardencorev1beta1 "github.com/gardener/gardener/pkg/apis/core/v1beta1"
 	"github.com/pkg/errors"
@@ -27,6 +26,7 @@ func init() {
 
 	decoder = serializer.NewCodecFactory(Scheme).UniversalDecoder()
 }
+
 func GetCloudProfileConfigFromProfile(profile *gardencorev1beta1.CloudProfile) (*kubevirt.CloudProfileConfig, error) {
 	var cloudProfileConfig *kubevirt.CloudProfileConfig
 	if profile.Spec.ProviderConfig != nil && profile.Spec.ProviderConfig.Raw != nil {
@@ -51,3 +51,4 @@ func GetCloudProfileConfig(cluster *controller.Cluster) (*kubevirt.CloudProfileC
 	}
 	return cloudProfileConfig, nil
 }
+

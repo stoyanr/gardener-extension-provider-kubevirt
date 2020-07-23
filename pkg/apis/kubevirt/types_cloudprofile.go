@@ -27,12 +27,6 @@ type CloudProfileConfig struct {
 	// MachineImages is the list of machine images that are understood by the controller. It maps
 	// logical names and versions to provider-specific identifiers.
 	MachineImages []MachineImages
-	// Constraints is an object containing constraints for certain values in the control plane config.
-	Constraints Constraints
-}
-
-// Constraints is an object containing constraints for the shoots.
-type Constraints struct {
 }
 
 // MachineImages is a mapping from logical names and versions to provider-specific identifiers.
@@ -47,8 +41,6 @@ type MachineImages struct {
 type MachineImageVersion struct {
 	// Version is the version of the image.
 	Version string
-	// Path is the path of the VM template.
-	Path string
-	// GuestID is the optional guestId to overwrite the guestId of the VM template.
-	GuestID *string
+	// SourceURL is the url of the image
+	SourceURL string
 }
