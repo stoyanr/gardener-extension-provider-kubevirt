@@ -7,6 +7,8 @@ machineClasses:
   memory: "4096M"
   sshKeys:
   - "ssh-rsa AAAAB3..."
+  networkNames:
+  - default/net-conf
   tags:
   - kubernetes.io/cluster/foo
   - kubernetes.io/role/node

@@ -11,6 +11,7 @@ require (
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/packr/v2 v2.8.0
 	github.com/golang/mock v1.4.4-0.20200731163441-8734ec565a4d
+	github.com/k8snetworkplumbingwg/network-attachment-definition-client v0.0.0-20200401090632-ee27f62faef8
 	github.com/onsi/ginkgo v1.13.0
 	github.com/onsi/gomega v1.10.1
 	github.com/pkg/errors v0.9.1

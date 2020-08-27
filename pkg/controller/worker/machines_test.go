@@ -104,6 +104,7 @@ var _ = Describe("Machines", func() {
 			cloudProfileName := "test-profile"
 			ubuntuSourceURL := "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
 			sshPublicKey := []byte("ssh-rsa AAAAB3...")
+			networkNames := []string{"default/net-conf"}
 
 			images := []apiv1alpha1.MachineImages{
 				{
@@ -132,6 +133,9 @@ var _ = Describe("Machines", func() {
 							TypeMeta: metav1.TypeMeta{
 								APIVersion: "kubevirt.provider.extensions.gardener.cloud/v1alpha1",
 								Kind:       "InfrastructureStatus",
+							},
+							Networks: apiv1alpha1.NetworksStatus{
+								NetworkNames: networkNames,
 							},
 						}),
 					},
@@ -212,6 +216,7 @@ var _ = Describe("Machines", func() {
 					"2",
 					"4096Mi",
 					sshPublicKey,
+					networkNames,
 				)
 
 				machineClass2 := generateMachineClass(
@@ -221,6 +226,7 @@ var _ = Describe("Machines", func() {
 					"300m",
 					"8192Mi",
 					sshPublicKey,
+					networkNames,
 				)
 
 				chartApplier.
@@ -356,7 +362,7 @@ func generateKubeVirtSecret(c *mockclient.MockClient) {
 		})
 }
 
-func generateMachineClass(classTemplate map[string]interface{}, name, pvcSize, cpu, memory string, sshPublicKey []byte) map[string]interface{} {
+func generateMachineClass(classTemplate map[string]interface{}, name, pvcSize, cpu, memory string, sshPublicKey []byte, networkNames []string) map[string]interface{} {
 	out := make(map[string]interface{})
 
 	for k, v := range classTemplate {
@@ -368,6 +374,7 @@ func generateMachineClass(classTemplate map[string]interface{}, name, pvcSize, c
 	out["cpus"] = resource.MustParse(cpu)
 	out["memory"] = resource.MustParse(memory)
 	out["sshKeys"] = []string{string(sshPublicKey)}
+	out["networkNames"] = networkNames
 
 	return out
 }
